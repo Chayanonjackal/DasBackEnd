@@ -5,7 +5,7 @@ const userModel = require('../Models/User');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleWare/auth');
 const bcrypt = require('bcryptjs');
-
+require('dotenv').config()
 
 //register user v1
 user.post('/post-user', (req, res) => {
@@ -139,10 +139,11 @@ user.post('/login', (req, res) => {
                             name: value.getDataValue('user_name'),
                             id: value.getDataValue('user_id'),
                             fname: value.getDataValue('first_name'),
-                            lname: value.getDataValue('last_name')
+                            lname: value.getDataValue('last_name'),
+                            role: value.getDataValue('role')
                         }
                         // time out set {expiresIn:"60s"}
-                        const token = jwt.sign(userDetail,'1234')
+                        const token = jwt.sign(userDetail,process.env.secret_key,{expiresIn:"1800s"})  //'1234'
                         res.status(200).json({
                             message: "Logged is successfully",
                             status: res.statusCode,
@@ -171,7 +172,7 @@ user.get('/profile',  (req,res)=>{
     if(authHeader){
         //Webtoken validate
         const token = authHeader.substr("Bearer".length+1)
-        jwt.verify(token,'1234',(err,user)=>{
+        jwt.verify(token,process.env.secret_key,(err,user)=>{
             //if data in token send data
             if(user){
                 res.status(200).json({
@@ -210,7 +211,38 @@ user.get('/get-all-user', auth,(req, res) => {
         })
 })
 
+user.delete('/delete-user', auth,(req,res)=>{
+    if(req.body.user_id !== undefined && req.body.user_id !== ''){
 
+        userModel.findOne({
+            where:{
+                user_id:req.body.user_id
+            }
+        }).then(data=>{
+            userModel.destroy({
+                where:{
+                    user_id:req.body.user_id
+                }
+            }).then(call=>{
+                res.status(200).json({
+                    message:"User : "+call+" Delete Success!!"
+                    , status: res.statusCode
+                })
+                
+            }).catch(err=>{
+                res.send('error : '+err)
+            })
+            // console.log(data.dataValues);
+        })
+     }else{
+        res.status(400).json({
+            message:" Can't Delete something wrong "
+            , status: res.statusCode
+        })
+     }
+    })
+    
+    
 
 
 //when create api u should use middleWare auth to check userToken when user call api

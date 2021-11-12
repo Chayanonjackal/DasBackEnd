@@ -1,7 +1,7 @@
 const { verify } = require("jsonwebtoken");
 const userModel = require('../Models/User');
 const jwt = require("jsonwebtoken");
-
+require('dotenv').config()
 // module.exports = function auth(req,res ,next){
 //     try {
 //         const token = req.headers.token ;
@@ -38,7 +38,7 @@ module.exports = function auth(req, res, next) {
         if (authHeader) {
             //Webtoken validate
             const token = authHeader.substr("Bearer".length + 1)
-            jwt.verify(token, '1234', async (err, user) => {
+            jwt.verify(token, process.env.secret_key, async (err, user) => {
                 if (err) {
                     return res.status(400).json({ error: "Token Error" });
                 }
