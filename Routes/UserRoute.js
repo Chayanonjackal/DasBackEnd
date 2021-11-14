@@ -132,32 +132,32 @@ user.post('/login', (req, res) => {
                 console.log(userData.password);
                 console.log(dbUserPassword);
                 // bcrypt.compare(userData.password, dbUserPassword, function (err, result) { })
-                    console.log(userData.password == dbUserPassword);
-                    if(userData.password == dbUserPassword) {
-                        //if password is correct send json web token
-                        const userDetail = {
-                            name: value.getDataValue('user_name'),
-                            id: value.getDataValue('user_id'),
-                            fname: value.getDataValue('first_name'),
-                            lname: value.getDataValue('last_name'),
-                            role: value.getDataValue('role')
-                        }
-                        // time out set {expiresIn:"60s"}
-                        const token = jwt.sign(userDetail,process.env.secret_key,{expiresIn:"1800s"})  //'1234'
-                        res.status(200).json({
-                            message: "Logged is successfully",
-                            status: res.statusCode,
-                            token
-                        })
-                    } else {
-                        //if password is not match
-                        res.status(401).json({
-                            message: "Invalid Crendential Given"
-                            , status: res.statusCode
-                            , token: ''
-                        })
+                console.log(userData.password == dbUserPassword);
+                if (userData.password == dbUserPassword) {
+                    //if password is correct send json web token
+                    const userDetail = {
+                        name: value.getDataValue('user_name'),
+                        id: value.getDataValue('user_id'),
+                        fname: value.getDataValue('first_name'),
+                        lname: value.getDataValue('last_name'),
+                        role: value.getDataValue('role')
                     }
-                
+                    // time out set {expiresIn:"60s"}
+                    const token = jwt.sign(userDetail, process.env.secret_key, { expiresIn: "1800s" })  //'1234'
+                    res.status(200).json({
+                        message: "Logged is successfully",
+                        status: res.statusCode,
+                        token
+                    })
+                } else {
+                    //if password is not match
+                    res.status(401).json({
+                        message: "Invalid Crendential Given"
+                        , status: res.statusCode
+                        , token: ''
+                    })
+                }
+
             }
 
         })
@@ -167,20 +167,20 @@ user.post('/login', (req, res) => {
 })
 
 //get user profile
-user.get('/profile',  (req,res)=>{
+user.get('/profile', (req, res) => {
     const authHeader = req.headers['authorization']
-    if(authHeader){
+    if (authHeader) {
         //Webtoken validate
-        const token = authHeader.substr("Bearer".length+1)
-        jwt.verify(token,process.env.secret_key,(err,user)=>{
+        const token = authHeader.substr("Bearer".length + 1)
+        jwt.verify(token, process.env.secret_key, (err, user) => {
             //if data in token send data
-            if(user){
+            if (user) {
                 res.status(200).json({
                     message: "success"
                     , status: res.statusCode
-                    , data:user
+                    , data: user
                 })
-            }else{
+            } else {
                 res.status(401).json({
                     message: "Please login"
                     , status: res.statusCode
@@ -189,7 +189,7 @@ user.get('/profile',  (req,res)=>{
             }
         })
 
-    }else{
+    } else {
         res.status(401).json({
             message: "Please login1"
             , status: res.statusCode
@@ -201,7 +201,7 @@ user.get('/profile',  (req,res)=>{
 })
 
 
-user.get('/get-all-user', auth,(req, res) => {
+user.get('/get-all-user', auth, (req, res) => {
     userModel.findAll()
         .then((user) => {
             res.status(200).json(user)
@@ -211,39 +211,104 @@ user.get('/get-all-user', auth,(req, res) => {
         })
 })
 
-user.delete('/delete-user', auth,(req,res)=>{
-    if(req.body.user_id !== undefined && req.body.user_id !== ''){
+user.delete('/delete-user', auth, (req, res) => {
+    if (req.body.user_id !== undefined && req.body.user_id !== '') {
 
         userModel.findOne({
-            where:{
-                user_id:req.body.user_id
+            where: {
+                user_id: req.body.user_id
             }
-        }).then(data=>{
+        }).then(data => {
             userModel.destroy({
-                where:{
-                    user_id:req.body.user_id
+                where: {
+                    user_id: req.body.user_id
                 }
-            }).then(call=>{
+            }).then(call => {
                 res.status(200).json({
-                    message:"User : "+call+" Delete Success!!"
+                    message: "User : " + call + " Delete Success!!"
                     , status: res.statusCode
                 })
-                
-            }).catch(err=>{
-                res.send('error : '+err)
+
+            }).catch(err => {
+                res.send('error : ' + err)
             })
             // console.log(data.dataValues);
         })
-     }else{
+    } else {
         res.status(400).json({
-            message:" Can't Delete something wrong "
+            message: " Can't Delete something wrong "
             , status: res.statusCode
         })
-     }
-    })
-    
-    
+    }
+})
 
+user.put('/edit-user', auth, (req, res) => {
+    const userData = {
+        user_name: req.body.user_name,
+        password: req.body.password,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        role: req.body.role
+    }
+    if (userData.user_name == undefined || userData.user_name == '' || userData.password == undefined || userData.password == '' ||
+        userData.first_name == undefined || userData.first_name == '' || userData.last_name == undefined || userData.user_name == '' ||
+        userData.role == undefined || userData.role == '') {
+        res.status(400).json({
+            message: "Fill all Fields",
+            status: res.statusCode
+        })
+    } else {
+        userModel.findOne({
+            where: {
+                user_id: req.body.user_id
+            }
+        })
+            .then(data => {
+                if (data) {
+                    userModel.update(userData, { where: { user_id: req.body.user_id } })
+                        .then(call => {
+                            res.status(200).json({
+                                message: "Update sucessful",
+                                status: res.statusCode
+                            })
+                        })
+                } else {
+                    res.status(400).json({
+                        message: "No user Profile for update",
+                        status: res.statusCode
+                    })
+                }
+            })
+    }
+})
+
+user.post('/all-profile', auth, (req, res) => {
+    // if(req.body.user_id == undefined || req.body.user_id == ''){
+    //     res.status(400).json({
+    //         message: "Please send user id"
+    //         , status: res.statusCode
+    //     })
+    // }else{
+    userModel.findOne({
+        where: {
+            user_id: req.body.user_id
+        }
+    }).then(data => {
+        if (data) {
+            res.status(200).json({
+                message: "success"
+                , status: res.statusCode
+                , data: data
+            })
+        } else {
+            res.status(400).json({
+                message: "No user Profile"
+                , status: res.statusCode
+            })
+        }
+    })
+    // }
+})
 
 //when create api u should use middleWare auth to check userToken when user call api
 //get data
