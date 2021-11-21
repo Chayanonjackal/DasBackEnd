@@ -35,12 +35,17 @@ require('dotenv').config()
 module.exports = function auth(req, res, next) {
     try {
         const authHeader = req.headers['authorization']
+        console.log(authHeader);
         if (authHeader) {
             //Webtoken validate
             const token = authHeader.substr("Bearer".length + 1)
             jwt.verify(token, process.env.secret_key, async (err, user) => {
                 if (err) {
-                    return res.status(400).json({ error: "Token Error" });
+                    return res.status(400).json({
+                        message: "Token Error"
+                        , status: res.statusCode
+                        , token: ''
+                    });
                 }
                 const findUser = await userModel.findOne({
                     where: { user_id: user.id },
@@ -66,6 +71,10 @@ module.exports = function auth(req, res, next) {
         }
 
     } catch (error) {
-        return res.status(400).json("Bad request");
+        return res.status(400).json({
+            message: "Bad request"
+            , status: res.statusCode
+            , token: ''
+        });
     }
 }

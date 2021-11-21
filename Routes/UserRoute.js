@@ -129,10 +129,10 @@ user.post('/login', (req, res) => {
             } else {
                 //if username right but password is correct or not
                 const dbUserPassword = value.getDataValue('password') //aom1234 from base
-                console.log(userData.password);
-                console.log(dbUserPassword);
+                // console.log(userData.password);
+                // console.log(dbUserPassword);
                 // bcrypt.compare(userData.password, dbUserPassword, function (err, result) { })
-                console.log(userData.password == dbUserPassword);
+                // console.log(userData.password == dbUserPassword);
                 if (userData.password == dbUserPassword) {
                     //if password is correct send json web token
                     const userDetail = {
@@ -204,10 +204,24 @@ user.get('/profile', (req, res) => {
 user.get('/get-all-user', auth, (req, res) => {
     userModel.findAll()
         .then((user) => {
-            res.status(200).json(user)
+            res.status(200).json(user)   // need to hashfunction value password   or  Encyption and Decyption
+            // res.status(200).json({
+            //     message:"get all profile success",
+            //     status:res.statusCode ,
+            //     data:{
+            //         user_id:user.getDataValue('user_id'),
+            //         user_name:user.getDataValue('user_name'),
+            //         first_name:user.getDataValue('first_name'),
+            //         last_name:user.getDataValue('last_name'),
+            //         role:user.getDataValue('role')
+            //     }
+            // })
         })
         .catch((error) => {
-            res.send(error);
+            res.status(400).json({
+                message: error.message,
+                status: res.statusCode
+            })
         })
 })
 
@@ -232,7 +246,6 @@ user.delete('/delete-user', auth, (req, res) => {
             }).catch(err => {
                 res.send('error : ' + err)
             })
-            // console.log(data.dataValues);
         })
     } else {
         res.status(400).json({
@@ -260,35 +273,73 @@ user.put('/edit-user', auth, (req, res) => {
     } else {
         userModel.findOne({
             where: {
-                user_id: req.body.user_id
+                user_name: req.body.user_name
             }
-        })
-            .then(data => {
-                if (data) {
-                    userModel.update(userData, { where: { user_id: req.body.user_id } })
-                        .then(call => {
-                            res.status(200).json({
-                                message: "Update sucessful",
-                                status: res.statusCode
-                            })
+        }).then(call => {
+            // console.log(call.dataValues);
+            if (call) {
+                console.log(call.dataValues.user_name == req.body.user_name);
+                console.log(call.dataValues.user_name);
+                console.log(req.body.user_name);
+                if (call.dataValues.user_id == req.body.user_id) {
+                    userModel.findOne({
+                        where: {
+                            user_id: req.body.user_id
+                        }
+                    })
+                        .then(data => {
+                            if (data) {
+                                // console.log(data.dataValues);
+                                userModel.update(userData, { where: { user_id: req.body.user_id } })
+                                    .then(call => {
+                                        res.status(200).json({
+                                            message: "Update sucessful",
+                                            status: res.statusCode
+                                        })
+                                    })
+                            } else {
+                                res.status(400).json({
+                                    message: "No user Profile for update",
+                                    status: res.statusCode
+                                })
+                            }
                         })
                 } else {
                     res.status(400).json({
-                        message: "No user Profile for update",
+                        message: "UserName is already taken",
                         status: res.statusCode
                     })
                 }
-            })
+
+            } else {
+                userModel.findOne({
+                    where: {
+                        user_id: req.body.user_id
+                    }
+                })
+                    .then(data => {
+                        if (data) {
+                            // console.log(data.dataValues);
+                            userModel.update(userData, { where: { user_id: req.body.user_id } })
+                                .then(call => {
+                                    res.status(200).json({
+                                        message: "Update sucessful",
+                                        status: res.statusCode
+                                    })
+                                })
+                        } else {
+                            res.status(400).json({
+                                message: "No user Profile for update",
+                                status: res.statusCode
+                            })
+                        }
+                    })
+            }
+        })
     }
 })
 
-user.post('/all-profile', auth, (req, res) => {
-    // if(req.body.user_id == undefined || req.body.user_id == ''){
-    //     res.status(400).json({
-    //         message: "Please send user id"
-    //         , status: res.statusCode
-    //     })
-    // }else{
+user.post('/profile-user', auth, (req, res) => {
     userModel.findOne({
         where: {
             user_id: req.body.user_id
@@ -307,7 +358,6 @@ user.post('/all-profile', auth, (req, res) => {
             })
         }
     })
-    // }
 })
 
 //when create api u should use middleWare auth to check userToken when user call api
