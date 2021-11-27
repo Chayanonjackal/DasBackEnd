@@ -2,6 +2,7 @@ const { urlencoded } = require('body-parser');
 const express = require('express');
 const user = express.Router();
 const userModel = require('../Models/User');
+const ppModel = require('../Models/PrivatePrediction');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleWare/auth');
 const bcrypt = require('bcryptjs');
@@ -58,7 +59,8 @@ user.post('/register', (req, res) => {
                     })
 
                 }).catch(error => res.status(404).json({
-                    message: "Some thing went wrong"
+                    message: "Some thing went wrong",
+                    status: res.statusCode
                 }))
             } else {
                 res.status(401).json({
@@ -238,6 +240,7 @@ user.delete('/delete-user', auth, (req, res) => {
                     user_id: req.body.user_id
                 }
             }).then(call => {
+
                 res.status(200).json({
                     message: "User : " + call + " Delete Success!!"
                     , status: res.statusCode
@@ -254,6 +257,98 @@ user.delete('/delete-user', auth, (req, res) => {
         })
     }
 })
+
+user.delete('/delete-ppdata-userdata', auth, (req, res) => {
+    if (req.body.user_id !== undefined && req.body.user_id !== '') {
+
+        ppModel.findAll({
+            where: {
+                user_id: req.body.user_id
+            }
+        }).then(data => {
+            // console.log(data);
+            if (data == [] || data == null) {
+                //if can't find data in pptable
+                userModel.findOne({
+                    where: {
+                        user_id: req.body.user_id
+                    }
+                }).then(data => {
+                    userModel.destroy({
+                        where: {
+                            user_id: req.body.user_id
+                        }
+                    }).then(call => {
+        
+                        res.status(200).json({
+                            message: "User : " + call + " Delete Success!!"
+                            , status: res.statusCode
+                        })
+        
+                    }).catch(err => {
+                        res.send('error : ' + err)
+                    })
+                })
+            } else {
+                //if can find
+                ppModel.destroy({
+                    where: {
+                        user_id: req.body.user_id
+                    }
+                }).then(ppcall => {
+    
+                    userModel.findOne({
+                        where: {
+                            user_id: req.body.user_id
+                        }
+                    }).then(data => {
+                        userModel.destroy({
+                            where: {
+                                user_id: req.body.user_id
+                            }
+                        }).then(call => {
+                            res.status(200).json({
+                                message: "User : " + call + " and PrivatePrediction Data Delete Success"
+                                , status: res.statusCode
+                            })
+
+                        }).catch(err => {
+                            res.send('error : ' + err)
+                        })
+                    })
+                }).catch(err => {
+                    res.send('error : ' + err)
+                })
+            }
+        })
+    } else {
+        res.status(400).json({
+            message: " Can't Delete something wrong "
+            , status: res.statusCode
+        })
+    }
+
+})
+
+// user.post("/check-delete", auth, ((req, res) => {
+//     if (req.body.user_id !== undefined && req.body.user_id !== '') {
+//         ppModel.findAll({
+//             where: {
+//                 user_id: req.body.user_id
+//             }
+//         }).then(data => {
+//             console.log(data);
+//             if (data = []) {
+
+//             }
+//         })
+//     } else {
+//         res.status(400).json({
+//             message: " Can't Delete something wrong "
+//             , status: res.statusCode
+//         })
+//     }
+// }))
 
 user.put('/edit-user', auth, (req, res) => {
     const userData = {
@@ -278,9 +373,6 @@ user.put('/edit-user', auth, (req, res) => {
         }).then(call => {
             // console.log(call.dataValues);
             if (call) {
-                console.log(call.dataValues.user_name == req.body.user_name);
-                console.log(call.dataValues.user_name);
-                console.log(req.body.user_name);
                 if (call.dataValues.user_id == req.body.user_id) {
                     userModel.findOne({
                         where: {

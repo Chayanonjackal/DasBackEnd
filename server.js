@@ -24,8 +24,10 @@ app.use(require('./middleWare/logger'))
 
 //api rounte
 const User = require('./Routes/UserRoute');
-
 app.use('/user',User)
+
+const PrivatePrediction = require('./Routes/PrivatePredictionRoute');
+app.use('/privateprediction',PrivatePrediction)
 
 app.use('/auth',auth,(req,res)=>{
     return res.json("u data in server")
