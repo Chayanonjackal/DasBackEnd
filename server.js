@@ -29,6 +29,9 @@ app.use('/user',User)
 const PrivatePrediction = require('./Routes/PrivatePredictionRoute');
 app.use('/privateprediction',PrivatePrediction)
 
+const StudentPrediction = require('./Routes/StudentPredictionRoute');
+app.use('/studentprediction',StudentPrediction)
+
 app.use('/auth',auth,(req,res)=>{
     return res.json("u data in server")
 })
