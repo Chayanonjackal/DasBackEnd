@@ -9,22 +9,22 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config()
 
 //register user v1
-user.post('/post-user', (req, res) => {
-    const userData = {
-        user_name: req.body.user_name,
-        password: req.body.password,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        role: req.body.role
-    }
-    userModel.create(userData)
-        .then((user) => {
-            res.status(200).json("Create Success");
-        })
-        .catch((error) => {
-            res.send(error);
-        })
-})
+// user.post('/post-user', (req, res) => {
+//     const userData = {
+//         user_name: req.body.user_name,
+//         password: req.body.password,
+//         first_name: req.body.first_name,
+//         last_name: req.body.last_name,
+//         role: req.body.role
+//     }
+//     userModel.create(userData)
+//         .then((user) => {
+//             res.status(200).json("Create Success");
+//         })
+//         .catch((error) => {
+//             res.send(error);
+//         })
+// })
 
 //register api uer v2
 user.post('/register', (req, res) => {
@@ -76,31 +76,31 @@ user.post('/register', (req, res) => {
 })
 
 //get token user login api v1
-user.post('/user-login', async (req, res) => {
-    try {
+// user.post('/user-login', async (req, res) => {
+//     try {
 
-        const user = await userModel.findOne({
-            where:
-            {
-                user_name: req.body.user_name,
-                password: req.body.password
-            }
-        })
-        if (user == null) {
-            //if user null
-            return res.status(200).json('Invalid user')
-        } else {
-            //if not null
-            var token = {
-                token: jwt.sign(user.dataValues, '1234')
-            };
-            return res.status(200).json(token)
-        }
-    } catch (error) {
-        return res.json(error)
-    }
+//         const user = await userModel.findOne({
+//             where:
+//             {
+//                 user_name: req.body.user_name,
+//                 password: req.body.password
+//             }
+//         })
+//         if (user == null) {
+//             //if user null
+//             return res.status(200).json('Invalid user')
+//         } else {
+//             //if not null
+//             var token = {
+//                 token: jwt.sign(user.dataValues, '1234')
+//             };
+//             return res.status(200).json(token)
+//         }
+//     } catch (error) {
+//         return res.json(error)
+//     }
 
-})
+// })
 
 //login api
 user.post('/login', (req, res) => {
