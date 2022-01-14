@@ -35,7 +35,7 @@ require('dotenv').config()
 module.exports = function auth(req, res, next) {
     try {
         const authHeader = req.headers['authorization']
-        console.log(authHeader);
+        // console.log(authHeader);
         if (authHeader) {
             //Webtoken validate
             const token = authHeader.substr("Bearer".length + 1)
