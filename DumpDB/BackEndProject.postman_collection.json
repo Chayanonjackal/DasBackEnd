@@ -1,0 +1,1041 @@
+{
+	"info": {
+		"_postman_id": "877115d2-f879-4421-b6fa-67e78dcb7708",
+		"name": "BackEndProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"user_name\" : \"Admin\" ,\r\n        \"password\" : \"aom1234\" ,\r\n        \"first_name\" : \"Cha\" , \r\n        \"last_name\" : \"Pr\" ,\r\n        \"role\" : \"A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();\r",
+									"// console.log(res.token)\r",
+									"pm.environment.set('token', res.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"user_name\" : \"admin\" ,\r\n        \"password\" : \"aom1234\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/profile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile all user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/get-all-user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"get-all-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete pptable and userTable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 22\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/delete-ppdata-userdata",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"delete-ppdata-userdata"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile user one",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\" :  10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/profile-user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"profile-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit User profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"user_id\": 2,\r\n        \"user_name\" : \"aom1\" ,\r\n        \"password\" : \"aom1234\" ,\r\n        \"first_name\" : \"Chaya\" , \r\n        \"last_name\" : \"Pra\" ,\r\n        \"role\" : \"A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/edit-user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"edit-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit User password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"user_id\": 1,\r\n        \"password\" : \"aom1234\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/edit-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"edit-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1NTUsInVzZXJfbmFtZSI6ImFvbSIsInBhc3N3b3JkIjoiYW9tIiwiZmlyc3RfbmFtZSI6IkNoYSIsImxhc3RfbmFtZSI6IlByIiwicm9sZSI6IkEifQ.FlriOW4BZ7ndrw80zwRZz7VM3Zu6jALjXpohC9pK8ew",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteuser notuse",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();\r",
+									"// console.log(res.token)\r",
+									"pm.environment.set('token', res.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"user_id\" : \"24\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/delete-user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"delete-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-login notuse",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_name\": \"aom\" ,\r\n    \"password\" : \"om\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/user-login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"user-login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-user-data notuse",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJhb20iLCJwYXNzd29yZCI6ImFvbSIsImZpcnN0X25hbWUiOiJDaGEiLCJsYXN0X25hbWUiOiJQciIsInJvbGUiOiJBIiwiaWF0IjoxNjM1NDk2ODMyfQ.Lni57W9AhPnmBcO7VpxH580XXCzCl2uFKDvALuF27Vo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\" : \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user//get-user-data",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"",
+								"get-user-data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test-post notuse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJhb20iLCJwYXNzd29yZCI6ImFvbSIsImZpcnN0X25hbWUiOiJDaGEiLCJsYXN0X25hbWUiOiJQciIsInJvbGUiOiJBIiwiaWF0IjoxNjM1NDk2ODMyfQ.Lni57W9AhPnmBcO7VpxH580XXCzCl2uFKDvALuF27Vo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\" : \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/test-post",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"test-post"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "azure",
+			"item": [
+				{
+					"name": "test Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "j85ZgkzQ6x9C6+2PeyoP1eFhZH0b5yBLrh5lM3IZIaUmRge3rRt6skcXjYO+0l/ajdTIQ+RiD8YOsZXKjf+OgQ==",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Inputs\": {\r\n    \"input1\": {\r\n      \"ColumnNames\": [\r\n        \"sunny\",\r\n        \"windy\",\r\n        \"rainy\"\r\n      ],\r\n      \"Values\": [\r\n        [\r\n          \"N\",\r\n          \"N\",\r\n          \"Y\"\r\n        ],\r\n         [\r\n          \"N\",\r\n          \"Y\",\r\n          \"N\"\r\n        ],\r\n         [\r\n          \"N\",\r\n          \"N\",\r\n          \"N\"\r\n        ]\r\n      ]\r\n    }\r\n  },\r\n  \"GlobalParameters\": {}\r\n}"
+						},
+						"url": {
+							"raw": "https://ussouthcentral.services.azureml.net/workspaces/e7c4d5f725754657b5ef53c387eabd19/services/ad2de4d754b441d39b0423943e0501bc/execute?api-version=2.0&details=true",
+							"protocol": "https",
+							"host": [
+								"ussouthcentral",
+								"services",
+								"azureml",
+								"net"
+							],
+							"path": [
+								"workspaces",
+								"e7c4d5f725754657b5ef53c387eabd19",
+								"services",
+								"ad2de4d754b441d39b0423943e0501bc",
+								"execute"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2.0"
+								},
+								{
+									"key": "details",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "aim azure",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "e4hrB1K/PmUSmZjAVbNtjk5AD6pv1bxrLsAUM4qVYET8YSjchE6B8V8BrBlSSkZClGYOqxODucqC697AoayaIA==",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Inputs\": {\r\n    \"input1\": {\r\n      \"ColumnNames\": [\r\n        \"priority\",\r\n        \"GPAX\",\r\n        \"PAT1\",\r\n        \"PAT2\",\r\n        \"PAT3\",\r\n        \"credit_sum\",\r\n        \"onet01\",\r\n        \"onet02\",\r\n        \"onet03\",\r\n        \"onet04\",\r\n        \"onet05\",\r\n        \"gat1_current\",\r\n        \"gat2_current\",\r\n        \"label\"\r\n      ],\r\n      \"Values\": [\r\n        [\r\n          \"1\",\r\n          \"4.00\",\r\n          \"123\",\r\n          \"110\",\r\n          \"0\",\r\n          \"101\",\r\n          \"100\",\r\n          \"100\",\r\n          \"100\",\r\n          \"100\",\r\n          \"100\",\r\n          \"78.13\",\r\n          \"60\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ]\r\n      ]\r\n    }\r\n  },\r\n  \"GlobalParameters\": {}\r\n}"
+						},
+						"url": {
+							"raw": "https://ussouthcentral.services.azureml.net/workspaces/546b05c5f7df46fc9eed1b8ef5831567/services/35eeb27125514777a59639dd1bb60deb/execute?api-version=2.0&details=true",
+							"protocol": "https",
+							"host": [
+								"ussouthcentral",
+								"services",
+								"azureml",
+								"net"
+							],
+							"path": [
+								"workspaces",
+								"546b05c5f7df46fc9eed1b8ef5831567",
+								"services",
+								"35eeb27125514777a59639dd1bb60deb",
+								"execute"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2.0"
+								},
+								{
+									"key": "details",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "aim azure Multiply",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "e4hrB1K/PmUSmZjAVbNtjk5AD6pv1bxrLsAUM4qVYET8YSjchE6B8V8BrBlSSkZClGYOqxODucqC697AoayaIA==",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Inputs\": {\r\n    \"input1\": {\r\n      \"ColumnNames\": [\r\n        \"priority\",\r\n        \"GPAX\",\r\n        \"PAT1\",\r\n        \"PAT2\",\r\n        \"PAT3\",\r\n        \"credit_sum\",\r\n        \"onet01\",\r\n        \"onet02\",\r\n        \"onet03\",\r\n        \"onet04\",\r\n        \"onet05\",\r\n        \"gat1_current\",\r\n        \"gat2_current\",\r\n        \"label\"\r\n      ],\r\n      \"Values\": [\r\n        [\r\n          \"1\",\r\n          \"4.00\",\r\n          \"123\",\r\n          \"110\",\r\n          \"0\",\r\n          \"101\",\r\n          \"100\",\r\n          \"100\",\r\n          \"100\",\r\n          \"100\",\r\n          \"100\",\r\n          \"78.13\",\r\n          \"60\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ],\r\n        [\r\n          \"1\",\r\n          \"3.03\",\r\n          \"63\",\r\n          \"60\",\r\n          \"0\",\r\n          \"84.5\",\r\n          \"54.5\",\r\n          \"41\",\r\n          \"30\",\r\n          \"17.5\",\r\n          \"39\",\r\n          \"0\",\r\n          \"0\",\r\n          \"value\"\r\n        ]\r\n      ]\r\n    }\r\n  },\r\n  \"GlobalParameters\": {}\r\n}"
+						},
+						"url": {
+							"raw": "https://ussouthcentral.services.azureml.net/workspaces/546b05c5f7df46fc9eed1b8ef5831567/services/35eeb27125514777a59639dd1bb60deb/execute?api-version=2.0&details=true",
+							"protocol": "https",
+							"host": [
+								"ussouthcentral",
+								"services",
+								"azureml",
+								"net"
+							],
+							"path": [
+								"workspaces",
+								"546b05c5f7df46fc9eed1b8ef5831567",
+								"services",
+								"35eeb27125514777a59639dd1bb60deb",
+								"execute"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2.0"
+								},
+								{
+									"key": "details",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "aomTest azure",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "j85ZgkzQ6x9C6+2PeyoP1eFhZH0b5yBLrh5lM3IZIaUmRge3rRt6skcXjYO+0l/ajdTIQ+RiD8YOsZXKjf+OgQ==",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Inputs\": {\r\n    \"input1\": {\r\n      \"ColumnNames\": [\r\n        \"sunny\",\r\n        \"windy\",\r\n        \"rainy\"\r\n      ],\r\n      \"Values\": [\r\n        [\r\n          \"no\",\r\n          \"no\",\r\n          \"yes\"\r\n        ],\r\n        [\r\n          \"yes\",\r\n          \"no\",\r\n          \"no\"\r\n        ]\r\n      ]\r\n    }\r\n  },\r\n  \"GlobalParameters\": {}\r\n}"
+						},
+						"url": {
+							"raw": "https://ussouthcentral.services.azureml.net/workspaces/e7c4d5f725754657b5ef53c387eabd19/services/ad2de4d754b441d39b0423943e0501bc/execute?api-version=2.0&details=true",
+							"protocol": "https",
+							"host": [
+								"ussouthcentral",
+								"services",
+								"azureml",
+								"net"
+							],
+							"path": [
+								"workspaces",
+								"e7c4d5f725754657b5ef53c387eabd19",
+								"services",
+								"ad2de4d754b441d39b0423943e0501bc",
+								"execute"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2.0"
+								},
+								{
+									"key": "details",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PrivatePrediction",
+			"item": [
+				{
+					"name": "store pp",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"citizen_id\":\"1104555112451\",\r\n    \"first_name_th\": \"chas\",\r\n    \"last_name_th\": \"pp\",\r\n    \"priority\": \"1\",\r\n    \"gpax\": \"3.35\",\r\n    \"pat1\": \"123\",\r\n    \"pat2\": \"110\",\r\n    \"school_name\": \"พระหฤทัยดอนเมือง\",\r\n    \"school_province_name\": \"กรุงเทพมหานคร\",\r\n    \"credit_sum\":\"95\",\r\n    \"onet01\":\"74.5\",\r\n    \"onet02\":\"45\",\r\n    \"onet03\":\"37.5\",\r\n    \"onet04\":\"53.13\",\r\n    \"onet05\":\"43.55\",\r\n    \"gat1_current\":\"78.13\",\r\n    \"gat2_current\":\"60\",\r\n    \"predic\":\"Yes\",\r\n    \"scoredProbabilities\":\"0.984685480594635\",\r\n    \"user_id\": 28\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/privateprediction/store",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"privateprediction",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all pp",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/privateprediction/get-all-pp",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"privateprediction",
+								"get-all-pp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all pp Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pp_id\": 33\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/privateprediction/delete-datapp",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"privateprediction",
+								"delete-datapp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check delete notuse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/check-delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"check-delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "StudentPrediction",
+			"item": [
+				{
+					"name": "store sp",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"citizen_id\":\"1104555112451\",\r\n    \"first_name_th\": \"chas\",\r\n    \"last_name_th\": \"pp\",\r\n    \"priority\": \"1\",\r\n    \"gpax\": \"3.35\",\r\n    \"pat1\": \"123\",\r\n    \"pat2\": \"110\",\r\n    \"school_name\": \"พระหฤทัยดอนเมือง\",\r\n    \"school_province_name\": \"กรุงเทพมหานคร\",\r\n    \"credit_sum\":\"95\",\r\n    \"onet01\":\"74.5\",\r\n    \"onet02\":\"45\",\r\n    \"onet03\":\"37.5\",\r\n    \"onet04\":\"53.13\",\r\n    \"onet05\":\"43.55\",\r\n    \"gat1_current\":\"78.13\",\r\n    \"gat2_current\":\"60\",\r\n    \"predic\":\"Yes\",\r\n    \"scoredProbabilities\":\"0.984685480594635\",\r\n    \"add_year\":\"2020\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/studentprediction/store",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"studentprediction",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all sp",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/studentprediction/get-all-sp",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"studentprediction",
+								"get-all-sp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all sp Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sp_id\" : \"5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/studentprediction/delete-datasp",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"studentprediction",
+								"delete-datasp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "openApi",
+			"item": [
+				{
+					"name": "provinceApi",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://thaiaddressapi-thaikub.herokuapp.com/v1/thailand/provinces",
+							"protocol": "https",
+							"host": [
+								"thaiaddressapi-thaikub",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"v1",
+								"thailand",
+								"provinces"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
