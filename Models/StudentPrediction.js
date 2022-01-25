@@ -80,6 +80,10 @@ module.exports = DB.sequelize.define(
         scoredProbabilities: {
             type: Sequelize.STRING
         }
+        ,
+        add_year: {
+            type: Sequelize.STRING
+        }
 
     } ,{
         timestamps:false,

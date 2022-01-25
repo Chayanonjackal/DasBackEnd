@@ -37,8 +37,8 @@ user.post('/register', (req, res) => {
                 //if no data found create new row
                 //encypt here
                 const saltRounds = 10;
-                
-                bcrypt.hash(userData.password, saltRounds, function(err, hash) {
+
+                bcrypt.hash(userData.password, saltRounds, function (err, hash) {
                     // Store hash in your password DB.
                     userData.password = hash
                     userModel.create(userData).then(value => {
@@ -46,7 +46,7 @@ user.post('/register', (req, res) => {
                             message: "Account has create sucessfully",
                             status: res.statusCode
                         })
-    
+
                     }).catch(error => res.status(404).json({
                         message: "Some thing went wrong",
                         status: res.statusCode
@@ -98,9 +98,9 @@ user.post('/login', (req, res) => {
                 //if username right but password is correct or not
                 const dbUserPassword = value.getDataValue('password') //aom1234 from base
                 // bcrypt.compare(userData.password, dbUserPassword, function (err, result) { })
-                bcrypt.compare(userData.password, dbUserPassword, function(err, result) {
+                bcrypt.compare(userData.password, dbUserPassword, function (err, result) {
                     // result == true
-                    console.log("PassWord : "+result);
+                    console.log("PassWord : " + result);
 
                     if (result) {
                         //if password is correct send json web token
@@ -127,8 +127,8 @@ user.post('/login', (req, res) => {
                         })
                     }
                 });
-                
-                
+
+
 
             }
 
@@ -177,7 +177,7 @@ user.get('/get-all-user', auth, (req, res) => {
     userModel.findAll()
         .then((user) => {
             res.status(200).json(user)   // need to hashfunction value password   or  Encyption and Decyption
-    
+
         })
         .catch((error) => {
             res.status(400).json({
@@ -239,12 +239,12 @@ user.delete('/delete-ppdata-userdata', auth, (req, res) => {
                             user_id: req.body.user_id
                         }
                     }).then(call => {
-        
+
                         res.status(200).json({
                             message: "User : " + call + " Delete Success!!"
                             , status: res.statusCode
                         })
-        
+
                     }).catch(err => {
                         res.send('error : ' + err)
                     })
@@ -256,7 +256,7 @@ user.delete('/delete-ppdata-userdata', auth, (req, res) => {
                         user_id: req.body.user_id
                     }
                 }).then(ppcall => {
-    
+
                     userModel.findOne({
                         where: {
                             user_id: req.body.user_id
@@ -294,12 +294,11 @@ user.delete('/delete-ppdata-userdata', auth, (req, res) => {
 user.put('/edit-user', auth, (req, res) => {
     const userData = {
         user_name: req.body.user_name,
-        password: req.body.password,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         role: req.body.role
     }
-    if (userData.user_name == undefined || userData.user_name == '' || userData.password == undefined || userData.password == '' ||
+    if (userData.user_name == undefined || userData.user_name == '' ||
         userData.first_name == undefined || userData.first_name == '' || userData.last_name == undefined || userData.user_name == '' ||
         userData.role == undefined || userData.role == '') {
         res.status(400).json({
@@ -312,8 +311,6 @@ user.put('/edit-user', auth, (req, res) => {
                 user_name: req.body.user_name
             }
         }).then(call => {
-         
-
             if (call) {
                 if (call.dataValues.user_id == req.body.user_id) {
                     userModel.findOne({
@@ -323,21 +320,14 @@ user.put('/edit-user', auth, (req, res) => {
                     })
                         .then(data => {
                             if (data) {
-                                const saltRounds = 10;
-                                bcrypt.hash(userData.password, saltRounds, function(err, hash) {
-                                    userData.password = hash ;
-                                    console.log('userPassword : '+ userData.password);
-                                    userModel.update(userData, { where: { user_id: req.body.user_id } })
+
+                                userModel.update(userData, { where: { user_id: req.body.user_id } })
                                     .then(call => {
                                         res.status(200).json({
                                             message: "Update sucessful",
                                             status: res.statusCode
                                         })
                                     })
-                                });
-
-                              
-
                             } else {
                                 res.status(400).json({
                                     message: "No user Profile for update",
@@ -360,7 +350,6 @@ user.put('/edit-user', auth, (req, res) => {
                 })
                     .then(data => {
                         if (data) {
-                            // console.log(data.dataValues);
                             userModel.update(userData, { where: { user_id: req.body.user_id } })
                                 .then(call => {
                                     res.status(200).json({
@@ -378,6 +367,38 @@ user.put('/edit-user', auth, (req, res) => {
             }
         })
     }
+})
+
+user.put('/edit-password', auth, (req, res) => {
+    const userData = {
+        password: req.body.password,
+    }
+    userModel.findOne({
+        where: {
+            user_id: req.body.user_id
+        }
+    })
+        .then(data => {
+            if (data) {
+                const saltRounds = 10;
+                bcrypt.hash(userData.password, saltRounds, function (err, hash) {
+                    userData.password = hash;
+                    userModel.update(userData, { where: { user_id: req.body.user_id } })
+                        .then(call => {
+                            res.status(200).json({
+                                message: "Update sucessful",
+                                status: res.statusCode
+                            })
+                        })
+                });
+            } else {
+                res.status(400).json({
+                    message: "No user Profile for update",
+                    status: res.statusCode
+                })
+            }
+        })
+
 })
 
 user.post('/profile-user', auth, (req, res) => {

@@ -27,7 +27,8 @@ studentprediction.post('/store',(req,res)=>{
         gat1_current:req.body.gat1_current,
         gat2_current:req.body.gat2_current,
         predic:req.body.predic,
-        scoredProbabilities:req.body.scoredProbabilities
+        scoredProbabilities:req.body.scoredProbabilities,
+        add_year:req.body.add_year
        
     }
     if(spData.citizen_id == undefined || spData.citizen_id == '' || 
@@ -48,7 +49,7 @@ studentprediction.post('/store',(req,res)=>{
     spData.gat1_current == undefined || spData.gat1_current == '' || 
     spData.gat2_current == undefined || spData.gat2_current == '' ||
     spData.predic == undefined || spData.predic == '' || 
-    spData.scoredProbabilities == undefined || spData.scoredProbabilities == '' 
+    spData.scoredProbabilities == undefined || spData.scoredProbabilities == '' || spData.add_year == undefined || spData.add_year == ''
     ){
         res.status(401).json({
             message: "Fill all Fields",
@@ -124,37 +125,25 @@ studentprediction.delete('/delete-datasp', auth, (req, res) => {
     }
 })
 
-// studentprediction.post('/get-all-sp',auth,(req,res)=>{
-//     if (req.body.user_id !== undefined && req.body.user_id !== '') {
+studentprediction.post('/get-year-sp',auth,(req,res)=>{
+    if(req.body.year !== undefined && req.body.year !== ''){
+        spModel.findAll({
+            where: {
+                add_year: req.body.year
+            }
+        }).then(data => {
+            res.status(200).json(data)
+        })
+    }else{
+        res.status(400).json({
+            message: " Can't get data something wrong "
+            , status: res.statusCode
+        })
+    }
 
-    
-//     spModel.findAll({
-//         where:{
-//             user_id:req.body.user_id
-//         }
-//     }).then((data)=>{
-//         if(data){
-//             res.status(200).json(data)
-//         }else{
-//             res.status(400).json({
-//                 message: error.message,
-//                 status: res.statusCode
-//             })
-//         }
-//     })
-//     .catch((error) => {
-//         res.status(400).json({
-//             message: error.message,
-//             status: res.statusCode
-//         })
-//     })
-//     }else{
-//         res.status(400).json({
-//             message: "Fill all fields",
-//             status: res.statusCode
-//         })
-//     }
-// })
+
+})
+
 
 
 
