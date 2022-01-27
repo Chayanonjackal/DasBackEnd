@@ -42,7 +42,7 @@ module.exports = function auth(req, res, next) {
             jwt.verify(token, process.env.secret_key, async (err, user) => {
                 if (err) {
                     return res.status(400).json({
-                        message: "Token Error"
+                        message: "Token Error :"+err
                         , status: res.statusCode
                         , token: ''
                     });
