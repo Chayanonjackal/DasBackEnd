@@ -68,7 +68,7 @@ user.post('/register', (req, res) => {
 })
 
 
-//login api
+//login api     //แก้ภาษาไทย
 user.post('/login', (req, res) => {
     const userData = {
         user_name: req.body.user_name,
@@ -77,7 +77,8 @@ user.post('/login', (req, res) => {
     }
     if (userData.user_name == undefined || userData.user_name == '' || userData.password == undefined || userData.password == '') {
         res.status(401).json({
-            message: "Fill all Fields",
+            // message: "Fill all Fields",
+            message: "โปรดใส่ข้อมูลให้ครบ",
             status: res.statusCode
         })
     } else {
@@ -90,7 +91,8 @@ user.post('/login', (req, res) => {
             if (value === null) {
                 //if no data found ask to admin to register
                 res.status(401).json({
-                    message: "User not register please SignUp",
+                    // message: "User not register please SignUp",
+                    message: "ผู้ใช้ยังไม่สมัคร โปรดสมัคร",
                     status: res.statusCode,
                     token: ""
                 })
@@ -114,14 +116,16 @@ user.post('/login', (req, res) => {
                         // time out set {expiresIn:"60s"}
                         const token = jwt.sign(userDetail, process.env.secret_key, { expiresIn: "1800s" })  //'1234'
                         res.status(200).json({
-                            message: "Logged is successfully",
+                            // message: "Logged is successfully",
+                            message: "ล็อคอินสำเร็จ",
                             status: res.statusCode,
                             token
                         })
                     } else {
                         //if password is not match
                         res.status(401).json({
-                            message: "Invalid Crendential Given"
+                            // message: "Invalid Crendential Given"    //ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+                            message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"    //ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
                             , status: res.statusCode
                             , token: ''
                         })
