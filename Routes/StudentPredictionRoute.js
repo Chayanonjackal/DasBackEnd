@@ -52,20 +52,23 @@ studentprediction.post('/store', (req, res) => {
         spData.scoredProbabilities == undefined || spData.scoredProbabilities == '' || spData.add_year == undefined || spData.add_year == ''
     ) {
         res.status(401).json({
-            message: "Fill all Fields",
+            // message: "Fill all Fields",
+            message: "โปรดใส่ข้อมูลให้ตรบทุกช่อง",
             status: res.statusCode
         })
     } else {
         spModel.create(spData).then(value => {
 
             res.status(200).json({
-                message: "Save Prediction sucessfully",
+                // message: "Save Prediction sucessfully",
+                message: "บันทึกผลสำเร็จ",
                 status: res.statusCode
             })
 
         }).catch(error => {
             res.status(404).json({
-                message: "Some thing went wrong can not save Prediction",
+                // message: "Some thing went wrong can not save Prediction",
+                message: "มีบางอย่างผิดปกติไม่สามารถบันทึกได้",
                 status: res.statusCode
             })
         }
@@ -109,7 +112,8 @@ studentprediction.delete('/delete-datasp', auth, (req, res) => {
                 }
             }).then(call => {
                 res.status(200).json({
-                    message: "Data : " + call + " Delete Success!!"
+                    // message: "Data : " + call + " Delete Success!!"
+                    message: "ลบข้อมูลสำเร็จ"
                     , status: res.statusCode
                 })
 
@@ -119,7 +123,8 @@ studentprediction.delete('/delete-datasp', auth, (req, res) => {
         })
     } else {
         res.status(400).json({
-            message: " Can't Delete something wrong "
+            // message: " Can't Delete something wrong "
+            message: "ไม่สามารถลบข้อมูล"
             , status: res.statusCode
         })
     }
@@ -155,13 +160,15 @@ studentprediction.post('/post-excel-data', auth, (req, res) => {
                 // console.log(data);
                 spModel.create(data).then(value => {
                     res.status(200).json({
-                        message: "Save Excel data sucessfully",
+                        // message: "Save Excel data sucessfully",
+                        message: "บันทึกข้อมูล Excel สำเร็จ",
                         status: res.statusCode
                     })
         
                 }).catch(error => {
                     res.status(404).json({
-                        message: "Can't post data something wrong",
+                        // message: "Can't post data something wrong",
+                        message: "ไม่สามารถบันทึกข้อมูล Excel ได้",
                         status: res.statusCode
                     })
                 }
@@ -170,7 +177,8 @@ studentprediction.post('/post-excel-data', auth, (req, res) => {
         }
     } else {
         res.status(400).json({
-            message: " Can't post data something wrong "
+            // message: " Can't post data something wrong "
+            message: "ไม่สามารถบันทึกข้อมูล Excel ได้"
             , status: res.statusCode
         })
     }
