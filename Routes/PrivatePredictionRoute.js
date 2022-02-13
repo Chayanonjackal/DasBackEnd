@@ -97,6 +97,41 @@ privateprediction.post('/get-all-pp',auth,(req,res)=>{
     }
 })
 
+privateprediction.post('/get-all-pp-excel',auth,(req,res)=>{
+    if (req.body.user_id !== undefined && req.body.user_id !== '') {
+
+    
+    ppModel.findAll({
+        attributes: ['citizen_id','first_name_th','last_name_th','priority','gpax','pat1','pat2','school_name','school_province_name','credit_sum','onet01'
+        ,'onet02','onet03','onet04','onet05','gat1_current','gat2_current','predic','scoredprobabilities'] ,
+        where:{
+            user_id:req.body.user_id
+        }
+    }).then((data)=>{
+        if(data){
+            console.log(data);
+            res.status(200).json(data)
+        }else{
+            res.status(400).json({
+                message: error.message,
+                status: res.statusCode
+            })
+        }
+    })
+    .catch((error) => {
+        res.status(400).json({
+            message: error.message,
+            status: res.statusCode
+        })
+    })
+    }else{
+        res.status(400).json({
+            message: "Fill all fields",
+            status: res.statusCode
+        })
+    }
+})
+
 privateprediction.delete('/delete-datapp', auth, (req, res) => {
     if (req.body.pp_id !== undefined && req.body.pp_id !== '') {
         ppModel.findOne({
