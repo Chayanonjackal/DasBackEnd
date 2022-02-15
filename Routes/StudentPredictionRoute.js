@@ -159,18 +159,19 @@ studentprediction.post('/post-excel-data', auth, (req, res) => {
             const data = req.body[index];
                 // console.log(data);
                 spModel.create(data).then(value => {
-                    res.status(200).json({
+                   return res.status(200).json({
                         // message: "Save Excel data sucessfully",
                         message: "บันทึกข้อมูล Excel สำเร็จ",
                         status: res.statusCode
                     })
         
                 }).catch(error => {
-                    res.status(404).json({
-                        // message: "Can't post data something wrong",
-                        message: "ไม่สามารถบันทึกข้อมูล Excel ได้",
-                        status: res.statusCode
-                    })
+                    // res.status(400).json({
+                    //     // message: "Can't post data something wrong",
+                    //     message: "ไม่สามารถบันทึกข้อมูล Excel ได้",
+                    //     status: res.statusCode
+                    // })
+                   
                 }
                 )
 

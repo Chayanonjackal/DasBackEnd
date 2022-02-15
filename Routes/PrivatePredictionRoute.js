@@ -109,7 +109,6 @@ privateprediction.post('/get-all-pp-excel',auth,(req,res)=>{
         }
     }).then((data)=>{
         if(data){
-            console.log(data);
             res.status(200).json(data)
         }else{
             res.status(400).json({
