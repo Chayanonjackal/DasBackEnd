@@ -22,6 +22,11 @@ conn.connect(function (err){
 const auth = require('./middleWare/auth');
 app.use(require('./middleWare/logger'))
 
+//start app
+app.get('/', (req,res) =>{
+    res.send('App BackEnd work');
+})
+
 //api rounte
 const User = require('./Routes/UserRoute');
 app.use('/user',User)
