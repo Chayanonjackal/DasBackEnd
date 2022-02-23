@@ -114,7 +114,7 @@ user.post('/login', (req, res) => {
                             role: value.getDataValue('role')
                         }
                         // time out set {expiresIn:"60s"}
-                        const token = jwt.sign(userDetail, process.env.secret_key, { expiresIn: "1800s" })  //'1234'
+                        const token = jwt.sign(userDetail, process.env.secret_key, { expiresIn: "3600s" })  //'1234'
                         res.status(200).json({
                             // message: "Logged is successfully",
                             message: "ล็อคอินสำเร็จ",
@@ -175,6 +175,8 @@ user.get('/profile', (req, res) => {
     }
 
 })
+
+
 
 
 user.get('/get-all-user', auth, (req, res) => {
@@ -306,7 +308,7 @@ user.put('/edit-user', auth, (req, res) => {
         userData.first_name == undefined || userData.first_name == '' || userData.last_name == undefined || userData.user_name == '' ||
         userData.role == undefined || userData.role == '') {
         res.status(400).json({
-            message: "Fill all Fields",
+            message: "กรุณากรอกข้อมูล",
             status: res.statusCode
         })
     } else {
@@ -328,20 +330,22 @@ user.put('/edit-user', auth, (req, res) => {
                                 userModel.update(userData, { where: { user_id: req.body.user_id } })
                                     .then(call => {
                                         res.status(200).json({
-                                            message: "Update sucessful",
+                                            message: "แก้ไขข้อมูลสำเร็จ",
                                             status: res.statusCode
                                         })
                                     })
                             } else {
                                 res.status(400).json({
-                                    message: "No user Profile for update",
+                                    // message: "No user Profile for update",
+                                    message: "แก้ไขข้อมูลไม่สำเร็จ",
                                     status: res.statusCode
                                 })
                             }
                         })
                 } else {
                     res.status(400).json({
-                        message: "UserName is already taken",
+                        // message: "UserName is already taken",
+                        message: "ชื่อผู้ใช้นี้ถูกใช้แล้ว",
                         status: res.statusCode
                     })
                 }
@@ -357,13 +361,14 @@ user.put('/edit-user', auth, (req, res) => {
                             userModel.update(userData, { where: { user_id: req.body.user_id } })
                                 .then(call => {
                                     res.status(200).json({
-                                        message: "Update sucessful",
+                                        message: "แก้ไขข้อมูลสำเร็จ",
                                         status: res.statusCode
                                     })
                                 })
                         } else {
                             res.status(400).json({
-                                message: "No user Profile for update",
+                                // message: "No user Profile for update",
+                                message: "แก้ไขข้อมูลไม่สำเร็จ",
                                 status: res.statusCode
                             })
                         }
@@ -390,14 +395,16 @@ user.put('/edit-password', auth, (req, res) => {
                     userModel.update(userData, { where: { user_id: req.body.user_id } })
                         .then(call => {
                             res.status(200).json({
-                                message: "Update sucessful",
+                                // message: "Update successful",
+                                message: "แก้ไขข้อมูลสำเร็จ",
                                 status: res.statusCode
                             })
                         })
                 });
             } else {
                 res.status(400).json({
-                    message: "No user Profile for update",
+                    // message: "No user Profile for update",
+                    message: "แก้ไขข้อมูลไม่สำเร็จ",
                     status: res.statusCode
                 })
             }
@@ -427,6 +434,65 @@ user.post('/profile-user', auth, (req, res) => {
 })
 
 //when create api u should use middleWare auth to check userToken when user call api
+
+//checkPassword
+user.post('/check-password', (req, res) => {
+    const userData = {
+        user_id: req.body.user_id,
+        password: req.body.password,
+    }
+    if (userData.user_id == undefined || userData.user_id == '' || userData.password == undefined || userData.password == '') {
+        res.status(401).json({
+            // message: "Fill all Fields",
+            message: "โปรดใส่ข้อมูลให้ครบ",
+            status: res.statusCode
+        })
+    } else {
+        //Check username is already registered
+        userModel.findOne({
+            where: {
+                user_id: req.body.user_id
+            }
+        }).then((value) => {
+            if (value === null) {
+                //if no data found ask to admin to register
+                res.status(401).json({
+                    // message: "User not register please SignUp",
+                    message: "ผู้ใช้ยังไม่สมัคร โปรดสมัคร",
+                    status: res.statusCode,
+                    confirmPassword: false
+                })
+            } else {
+                //if username right but password is correct or not
+                const dbUserPassword = value.getDataValue('password') //aom1234 from base
+                bcrypt.compare(userData.password, dbUserPassword, function (err, result) {
+                    console.log("PassWord : " + result);
+                    if (result) {
+                        res.status(200).json({
+                            // message: "Logged is successfully",
+                            message: "รหัสผ่านถูกต้อง",
+                            status: res.statusCode
+                        })
+                    } else {
+                        //if password is not match
+                        res.status(401).json({
+                            // message: "Invalid Crendential Given"    //ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+                            message: "รหัสผ่านไม่ถูกต้อง"    //ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+                            , status: res.statusCode
+                            
+                        })
+                    }
+                });
+
+
+
+            }
+
+        })
+
+    }
+
+})
 
 
 
