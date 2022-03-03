@@ -47,13 +47,15 @@ privateprediction.post('/store',auth,(req,res)=>{
         ppModel.create(ppData).then(value => {
             
             res.status(200).json({
-                message: "Save Prediction sucessfully",
+                // message: "Save Prediction sucessfully",
+                message: "บันทึกสำเร็จ",
                 status: res.statusCode
             })
 
         }).catch(error => {
             res.status(404).json({
-                message: "Some thing went wrong can not save Prediction",
+                // message: "Some thing went wrong can not save Prediction",
+                message: "มีบางอย่างผิดปกติ",
                 status: res.statusCode
             })
         }
@@ -91,7 +93,8 @@ privateprediction.post('/get-all-pp',auth,(req,res)=>{
     })
     }else{
         res.status(400).json({
-            message: "Fill all fields",
+            // message: "Fill all fields",
+            message: "โปรดใส่ข้อมูลให้ครบ",
             status: res.statusCode
         })
     }
@@ -125,7 +128,8 @@ privateprediction.post('/get-all-pp-excel',auth,(req,res)=>{
     })
     }else{
         res.status(400).json({
-            message: "Fill all fields",
+            // message: "Fill all fields",
+            message: "โปรดใส่ข้อมูลให้ครบ",
             status: res.statusCode
         })
     }
@@ -145,7 +149,8 @@ privateprediction.delete('/delete-datapp', auth, (req, res) => {
             }).then(call => {
 
                 res.status(200).json({
-                    message: "Data : " + call + " Delete Success!!"
+                    // message: "Data : " + call + " Delete Success!!"
+                    message: "ลบข้อมูลสำเร็จ"
                     , status: res.statusCode
                 })
 
@@ -155,7 +160,8 @@ privateprediction.delete('/delete-datapp', auth, (req, res) => {
         })
     } else {
         res.status(400).json({
-            message: " Can't Delete something wrong "
+            // message: " Can't Delete something wrong "
+            message: "ไม่สามารถลบได้มีบางอย่างผิดปกติ"
             , status: res.statusCode
         })
     }

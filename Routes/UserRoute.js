@@ -43,12 +43,14 @@ user.post('/register', (req, res) => {
                     userData.password = hash
                     userModel.create(userData).then(value => {
                         res.status(201).json({
-                            message: "Account has create sucessfully",
+                            // message: "Account has create sucessfully",
+                            message: "สร้างบัญชีผู้ใช้สำเร็จ",
                             status: res.statusCode
                         })
 
                     }).catch(error => res.status(404).json({
-                        message: "Some thing went wrong",
+                        // message: "Some thing went wrong",
+                        message: "บางอย่างผิดปกติ",
                         status: res.statusCode
                     }))
 
@@ -56,7 +58,8 @@ user.post('/register', (req, res) => {
 
             } else {
                 res.status(401).json({
-                    message: "username is already taken",
+                    // message: "username is already taken",
+                    message: "มีผู้ใช้นี้อยู่แล้ว",
                     status: res.statusCode
                 })
             }
@@ -167,7 +170,7 @@ user.get('/profile', (req, res) => {
 
     } else {
         res.status(401).json({
-            message: "Please login1"
+            message: "Please login"
             , status: res.statusCode
             , token: ''
         })
@@ -208,7 +211,8 @@ user.delete('/delete-user', auth, (req, res) => {
             }).then(call => {
 
                 res.status(200).json({
-                    message: "User : " + call + " Delete Success!!"
+                    // message: "User : " + call + " Delete Success!!"
+                    message: "ลบบัญชีผู้ใช้สำเร็จ"
                     , status: res.statusCode
                 })
 
@@ -218,7 +222,8 @@ user.delete('/delete-user', auth, (req, res) => {
         })
     } else {
         res.status(400).json({
-            message: " Can't Delete something wrong "
+            // message: " Can't Delete something wrong "
+            message: "ไม่สามารถลบได้มีบางอย่างผิดปกติ"
             , status: res.statusCode
         })
     }
@@ -247,7 +252,8 @@ user.delete('/delete-ppdata-userdata', auth, (req, res) => {
                     }).then(call => {
 
                         res.status(200).json({
-                            message: "User : " + call + " Delete Success!!"
+                            // message: "User : " + call + " Delete Success!!"
+                            message: "ลบสำเร็จ"
                             , status: res.statusCode
                         })
 
@@ -274,7 +280,8 @@ user.delete('/delete-ppdata-userdata', auth, (req, res) => {
                             }
                         }).then(call => {
                             res.status(200).json({
-                                message: "User : " + call + " and PrivatePrediction Data Delete Success"
+                                // message: "User : " + call + " and PrivatePrediction Data Delete Success"
+                                message: "ลบข้อมูลส่วนตัวและบัญชีผู้ใช้สำเร็จ"
                                 , status: res.statusCode
                             })
 
@@ -289,7 +296,8 @@ user.delete('/delete-ppdata-userdata', auth, (req, res) => {
         })
     } else {
         res.status(400).json({
-            message: " Can't Delete something wrong "
+            // message: " Can't Delete something wrong "
+            message: "ไม่สามารถลบได้มีบางอย่างผิดปกติ"
             , status: res.statusCode
         })
     }

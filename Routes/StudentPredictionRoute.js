@@ -141,7 +141,8 @@ studentprediction.post('/get-year-sp', auth, (req, res) => {
         })
     } else {
         res.status(400).json({
-            message: " Can't get data something wrong "
+            // message: " Can't get data something wrong "
+            message: "ไม่สามารถเรียกข้อมูลได้มีบางอย่างผิดปกติ"
             , status: res.statusCode
         })
     }
@@ -184,27 +185,6 @@ studentprediction.post('/post-excel-data', auth, (req, res) => {
         })
     }
 
-
-
-
-
-
-
-
-    // if(req.body.year !== undefined && req.body.year !== ''){
-    //     spModel.findAll({
-    //         where: {
-    //             add_year: req.body.year
-    //         }
-    //     }).then(data => {
-    //         res.status(200).json(data)
-    //     })
-    // }else{
-    //     res.status(400).json({
-    //         message: " Can't get data something wrong "
-    //         , status: res.statusCode
-    //     })
-    // }
 
 
 })
